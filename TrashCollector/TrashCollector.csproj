@@ -196,14 +196,55 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PickupsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807251624250_TrashCollector.cs" />
+    <Compile Include="Migrations\201807251624250_TrashCollector.Designer.cs">
+      <DependentUpon>201807251624250_TrashCollector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807251704522_Test.cs" />
+    <Compile Include="Migrations\201807251704522_Test.Designer.cs">
+      <DependentUpon>201807251704522_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807251857529_AddedModelsInitial.cs" />
+    <Compile Include="Migrations\201807251857529_AddedModelsInitial.Designer.cs">
+      <DependentUpon>201807251857529_AddedModelsInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807251906388_AddedModelsInitial1.cs" />
+    <Compile Include="Migrations\201807251906388_AddedModelsInitial1.Designer.cs">
+      <DependentUpon>201807251906388_AddedModelsInitial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807252121054_EmployeeModelUpdate.cs" />
+    <Compile Include="Migrations\201807252121054_EmployeeModelUpdate.Designer.cs">
+      <DependentUpon>201807252121054_EmployeeModelUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807252220412_NameAddToCustomer.cs" />
+    <Compile Include="Migrations\201807252220412_NameAddToCustomer.Designer.cs">
+      <DependentUpon>201807252220412_NameAddToCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807252223568_UpdateCustomer.cs" />
+    <Compile Include="Migrations\201807252223568_UpdateCustomer.Designer.cs">
+      <DependentUpon>201807252223568_UpdateCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807261550372_LoginAndViewModelWork.cs" />
+    <Compile Include="Migrations\201807261550372_LoginAndViewModelWork.Designer.cs">
+      <DependentUpon>201807261550372_LoginAndViewModelWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Pickup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -266,6 +307,23 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Pickups\Create.cshtml" />
+    <Content Include="Views\Pickups\Delete.cshtml" />
+    <Content Include="Views\Pickups\Details.cshtml" />
+    <Content Include="Views\Pickups\Edit.cshtml" />
+    <Content Include="Views\Pickups\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -282,6 +340,32 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201807251624250_TrashCollector.resx">
+      <DependentUpon>201807251624250_TrashCollector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251704522_Test.resx">
+      <DependentUpon>201807251704522_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251857529_AddedModelsInitial.resx">
+      <DependentUpon>201807251857529_AddedModelsInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251906388_AddedModelsInitial1.resx">
+      <DependentUpon>201807251906388_AddedModelsInitial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807252121054_EmployeeModelUpdate.resx">
+      <DependentUpon>201807252121054_EmployeeModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807252220412_NameAddToCustomer.resx">
+      <DependentUpon>201807252220412_NameAddToCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807252223568_UpdateCustomer.resx">
+      <DependentUpon>201807252223568_UpdateCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807261550372_LoginAndViewModelWork.resx">
+      <DependentUpon>201807261550372_LoginAndViewModelWork.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
