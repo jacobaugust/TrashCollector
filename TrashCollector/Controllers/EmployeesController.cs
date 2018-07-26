@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,12 +16,18 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index(Employee employee)
+        public ActionResult Index(string Id, ApplicationUser applicationUser)
         {
+            
+            var userId = User.Identity.GetUserId();
+            var userCurrent =
+                (from u in db.Users
+                 where u.Id == userId
+                 select u).First();
             DateTime dateTime = DateTime.Today;
             var pickups =
                 from p in db.pickups
-                where p.pickupZipCode == employee.employeeZipCode || DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
+                where p.pickupZipCode == userCurrent.ZipCode || DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
                 select p;
             return View(pickups.ToList());
         }
