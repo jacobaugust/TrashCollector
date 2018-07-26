@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201807261550372_LoginAndViewModelWork.Designer.cs">
       <DependentUpon>201807261550372_LoginAndViewModelWork.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807261755411_IdentityUserModelWork.cs" />
+    <Compile Include="Migrations\201807261755411_IdentityUserModelWork.Designer.cs">
+      <DependentUpon>201807261755411_IdentityUserModelWork.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -365,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807261550372_LoginAndViewModelWork.resx">
       <DependentUpon>201807261550372_LoginAndViewModelWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807261755411_IdentityUserModelWork.resx">
+      <DependentUpon>201807261755411_IdentityUserModelWork.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
