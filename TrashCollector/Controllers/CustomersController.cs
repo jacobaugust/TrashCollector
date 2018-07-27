@@ -82,13 +82,19 @@ namespace TrashCollector.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "PickupDate")] Customer customer)
+        public ActionResult Index([Bind(Include = "PickupDate")] Customer customer, Pickup pickup)
         {
             if (ModelState.IsValid)
             {
                 //Find Customer
-                //Input Pickup Date
+                var customerToUpdate = db.customers.Find(customer.ApplicationUserId);
+                customerToUpdate.PickupDate = customer.PickupDate;
                 db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                var pickupToUpdate = db.pickups.Find(pickup.Id);
+                pickupToUpdate.pickUpDate = customer.PickupDate;
+                db.Entry(pickup).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details");
             }
