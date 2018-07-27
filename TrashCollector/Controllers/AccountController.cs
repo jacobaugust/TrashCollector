@@ -171,16 +171,17 @@ namespace TrashCollector.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     if (model.UserRoles == "employee")
                     {
-                        return RedirectToAction("Index", "Employee");
+                        return RedirectToAction("Index", "Employees");
                     }
                     else if (model.UserRoles == "customer")
                     {
-                        return RedirectToAction("Index", "Customer");
+                        return RedirectToAction("Create", "Customers");
                     }
                     else
                     {
                         return RedirectToAction("Index", "Home");
                     }
+                    
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin")).ToList(), "Name", "Name");
 

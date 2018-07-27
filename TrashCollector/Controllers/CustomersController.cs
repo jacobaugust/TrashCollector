@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,54 +12,46 @@ namespace TrashCollector.Controllers
     public class CustomersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Customers
-        public ActionResult Index()
-        {
-            return View(db.customers.ToList());
-        }
 
-        // GET: Customers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customer);
-        }
 
-        // GET: Customers/Create
+
         public ActionResult Create()
         {
+
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CustomerName,ScheduledPickUpDay,SpecialPickUpDay,SuspendPickupStartDate,SuspendPickupEndDate,MonthlyBalance")] Customer customer)
+        public ActionResult Create([Bind(Include = "PickupDate")]Customer customer, ApplicationUser applicationUser, Pickup pickup)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    customer.CustomerName = applicationUser.FirstName;
+                    db.customers.Add(customer);
+                    customer.PickupDate = pickup.pickUpDate;
+                    applicationUser.StreetAddress = pickup.pickupStreetAddress;
+                    applicationUser.City = pickup.pickupCity;
+                    applicationUser.State = pickup.pickupState;
+                    applicationUser.ZipCode = pickup.pickupZipCode;
+                    db.pickups.Add(pickup);
+                    db.SaveChanges();
+                    return RedirectToAction("Details");
+                }
             }
-
-            return View(customer);
+            catch
+            {
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+            return RedirectToAction("Details");
         }
 
-        // GET: Customers/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Details()
         {
+            string id = User.Identity.GetUserId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -72,56 +63,32 @@ namespace TrashCollector.Controllers
             }
             return View(customer);
         }
-
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CustomerName,ScheduledPickUpDay,SpecialPickUpDay,SuspendPickupStartDate,SuspendPickupEndDate,MonthlyBalance")] Customer customer)
+        public ActionResult Index()
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(customer);
-        }
-
-        // GET: Customers/Delete/5
-        public ActionResult Delete(int? id)
-        {
+            string id = User.Identity.GetUserId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.customers.Find(id);
-            if (customer == null)
+            //ViewBag.CustomerID = new SelectList(db.customers, "Id", "CustomerName", pickup.CustomerID);
+            //ViewBag.EmployeeID = new SelectList(db.employees, "Id", "Name", pickup.EmployeeID);
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "PickupDate")] Customer customer)
+        {
+            if (ModelState.IsValid)
             {
-                return HttpNotFound();
+                //Find Customer
+                //Input Pickup Date
+                db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details");
             }
+
             return View(customer);
         }
-
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Customer customer = db.customers.Find(id);
-            db.customers.Remove(customer);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        
     }
 }

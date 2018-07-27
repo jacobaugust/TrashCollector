@@ -3,10 +3,58 @@ namespace TrashCollector.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class TrashCollector : DbMigration
+    public partial class InitialReboot : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Customers",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CustomerName = c.String(),
+                        ScheduledPickUpDay = c.String(),
+                        SpecialPickUpDay = c.String(),
+                        SuspendPickupStartDate = c.String(),
+                        SuspendPickupEndDate = c.String(),
+                        MonthlyBalance = c.String(),
+                        Employee_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Employees", t => t.Employee_Id)
+                .Index(t => t.Employee_Id);
+            
+            CreateTable(
+                "dbo.Employees",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        employeeZipCode = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Pickups",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        EmployeeID = c.Int(nullable: false),
+                        CustomerID = c.Int(nullable: false),
+                        ChargeAmount = c.Double(nullable: false),
+                        pickUpDate = c.DateTime(nullable: false),
+                        pickupCompleted = c.Boolean(nullable: false),
+                        pickupStreetAddress = c.String(),
+                        pickupCity = c.String(),
+                        pickupState = c.String(),
+                        pickupZipCode = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Customers", t => t.CustomerID, cascadeDelete: true)
+                .ForeignKey("dbo.Employees", t => t.EmployeeID, cascadeDelete: true)
+                .Index(t => t.EmployeeID)
+                .Index(t => t.CustomerID);
+            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -35,6 +83,13 @@ namespace TrashCollector.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        UserRoles = c.String(),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        StreetAddress = c.String(),
+                        City = c.String(),
+                        State = c.String(),
+                        ZipCode = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -83,17 +138,26 @@ namespace TrashCollector.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Pickups", "EmployeeID", "dbo.Employees");
+            DropForeignKey("dbo.Pickups", "CustomerID", "dbo.Customers");
+            DropForeignKey("dbo.Customers", "Employee_Id", "dbo.Employees");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Pickups", new[] { "CustomerID" });
+            DropIndex("dbo.Pickups", new[] { "EmployeeID" });
+            DropIndex("dbo.Customers", new[] { "Employee_Id" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Pickups");
+            DropTable("dbo.Employees");
+            DropTable("dbo.Customers");
         }
     }
 }

@@ -1,9 +1,9 @@
-namespace TrashCollector
+namespace TrashCollector.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpdateCustomer : DbMigration
+    public partial class ContinueCustomerAdds : DbMigration
     {
         public override void Up()
         {

@@ -1,4 +1,4 @@
-namespace TrashCollector
+namespace TrashCollector.Migrations
 {
     using System;
     using System.Data.Entity;
