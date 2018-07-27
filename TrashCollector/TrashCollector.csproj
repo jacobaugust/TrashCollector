@@ -222,6 +222,22 @@
     <Compile Include="Migrations\201807271543275_ContinueCustomerAdds.Designer.cs">
       <DependentUpon>201807271543275_ContinueCustomerAdds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807271849039_CustomerWork.cs" />
+    <Compile Include="Migrations\201807271849039_CustomerWork.Designer.cs">
+      <DependentUpon>201807271849039_CustomerWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271914054_EditToPickupAndCustomer.cs" />
+    <Compile Include="Migrations\201807271914054_EditToPickupAndCustomer.Designer.cs">
+      <DependentUpon>201807271914054_EditToPickupAndCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807271939452_NullableDatePickup.cs" />
+    <Compile Include="Migrations\201807271939452_NullableDatePickup.Designer.cs">
+      <DependentUpon>201807271939452_NullableDatePickup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807272019143_NullableEmployeeId.cs" />
+    <Compile Include="Migrations\201807272019143_NullableEmployeeId.Designer.cs">
+      <DependentUpon>201807272019143_NullableEmployeeId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -335,6 +351,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807271543275_ContinueCustomerAdds.resx">
       <DependentUpon>201807271543275_ContinueCustomerAdds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271849039_CustomerWork.resx">
+      <DependentUpon>201807271849039_CustomerWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271914054_EditToPickupAndCustomer.resx">
+      <DependentUpon>201807271914054_EditToPickupAndCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807271939452_NullableDatePickup.resx">
+      <DependentUpon>201807271939452_NullableDatePickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807272019143_NullableEmployeeId.resx">
+      <DependentUpon>201807272019143_NullableEmployeeId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

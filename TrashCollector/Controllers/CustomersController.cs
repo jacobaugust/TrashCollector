@@ -30,13 +30,24 @@ namespace TrashCollector.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    customer.CustomerName = applicationUser.FirstName;
+                    var userId = User.Identity.GetUserId();
+                    var userCurrent =
+                        (from u in db.Users
+                         where u.Id == userId
+                         select u).First();
+                    
+
+                    customer.CustomerName = userCurrent.FirstName;
+                    customer.MonthlyBalance = (0 + pickup.PickupChargeAmount);
+                    customer.ApplicationUserId = userId;
                     db.customers.Add(customer);
-                    customer.PickupDate = pickup.pickUpDate;
-                    applicationUser.StreetAddress = pickup.pickupStreetAddress;
-                    applicationUser.City = pickup.pickupCity;
-                    applicationUser.State = pickup.pickupState;
-                    applicationUser.ZipCode = pickup.pickupZipCode;
+                    db.SaveChanges();
+                    pickup.CustomerID = customer.Id;
+                    pickup.pickUpDate = customer.PickupDate;
+                    pickup.pickupStreetAddress = userCurrent.StreetAddress;
+                    pickup.pickupCity = userCurrent.City;
+                    pickup.pickupState = userCurrent.State;
+                    pickup.pickupZipCode = userCurrent.ZipCode;
                     db.pickups.Add(pickup);
                     db.SaveChanges();
                     return RedirectToAction("Details");
@@ -56,12 +67,7 @@ namespace TrashCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customer);
+            return View();
         }
         public ActionResult Index()
         {

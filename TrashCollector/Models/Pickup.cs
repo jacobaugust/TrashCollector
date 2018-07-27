@@ -12,16 +12,17 @@ namespace TrashCollector.Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("Employee")]
-        public int EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public Employee Employee { get; set; }
         [ForeignKey("Customer")]
         public int CustomerID { get; set; }
         public Customer Customer { get; set; }
-        public double ChargeAmount { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public float? PickupChargeAmount = 20;
         public static List<string> pickupDays = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime pickUpDate { get; set; }
+        public DateTime? pickUpDate { get; set; }
         public bool pickupCompleted { get; set; }
         public string pickupStreetAddress { get; set; }
         public string pickupCity { get; set; }
