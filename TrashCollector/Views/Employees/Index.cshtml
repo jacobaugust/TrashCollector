@@ -1,39 +1,69 @@
-﻿@model IEnumerable<TrashCollector.Models.Employee>
-
+﻿@model IEnumerable<TrashCollector.Models.Pickup>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pickup List";
 }
-
 <h2>Pickups In Your Area</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+
+
+
 <table class="table">
     <tr>
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.Employee.Name)
+            </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.pickupStreetAddress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.employeeZipCode)
+            @Html.DisplayNameFor(model => model.pickupCity)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pickupState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pickupZipCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pickUpDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pickupCompleted)
+        </th>
+
         <th></th>
+
+
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.employeeZipCode)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickupStreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickupCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickupState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickupZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickUpDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pickupCompleted)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 </table>

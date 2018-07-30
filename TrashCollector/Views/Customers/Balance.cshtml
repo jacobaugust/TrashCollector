@@ -1,0 +1,25 @@
+﻿@model TrashCollector.Models.Customer
+@{
+    ViewBag.Title = "Balance";
+}
+
+<h2>Balance</h2>
+<h4>Account Balance Due</h4>
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.MonthlyBalance)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.MonthlyBalance)
+    </dd>
+
+   
+
+</dl>
+</div>
+<p>
+
+    @Html.ActionLink("Back to Customer Menu", "Details")
+</p>

@@ -16,20 +16,20 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Employees
-        public ActionResult Index(string Id, ApplicationUser applicationUser)
+        public ActionResult Index(string Id, ApplicationUser applicationUser, Pickup pickup)
         {
-            
+
             var userId = User.Identity.GetUserId();
             var userCurrent =
                 (from u in db.Users
                  where u.Id == userId
                  select u).First();
             DateTime dateTime = DateTime.Today;
-            var pickups =
+            var refinedpickups =
                 from p in db.pickups
                 where p.pickupZipCode == userCurrent.ZipCode || DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
                 select p;
-            return View(pickups.ToList());
+            return View(refinedpickups.ToList());
         }
 
         // GET: Employees/Details/5

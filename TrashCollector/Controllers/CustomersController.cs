@@ -76,31 +76,154 @@ namespace TrashCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //ViewBag.CustomerID = new SelectList(db.customers, "Id", "CustomerName", pickup.CustomerID);
-            //ViewBag.EmployeeID = new SelectList(db.employees, "Id", "Name", pickup.EmployeeID);
+           
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "PickupDate")] Customer customer, Pickup pickup)
+        public ActionResult Index([Bind(Include = "PickupDate")] Customer customer, ApplicationUser applicationUser, Pickup pickup)
         {
             if (ModelState.IsValid)
             {
                 //Find Customer
-                var customerToUpdate = db.customers.Find(customer.ApplicationUserId);
+                var userId = User.Identity.GetUserId();
+                var userCurrent =
+                    (from u in db.Users
+                     where u.Id == userId
+                     select u).First();
+
+                var customerToUpdate =
+                     (from c in db.customers
+                      where c.ApplicationUserId == userCurrent.Id
+                      select c).First();
+
                 customerToUpdate.PickupDate = customer.PickupDate;
-                db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(customerToUpdate).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-                var pickupToUpdate = db.pickups.Find(pickup.Id);
-                pickupToUpdate.pickUpDate = customer.PickupDate;
-                db.Entry(pickup).State = System.Data.Entity.EntityState.Modified;
+                var pickupToUpdate =
+                    (from p in db.pickups
+                     where p.CustomerID == customerToUpdate.Id
+                     select p).First();
+                pickupToUpdate.pickUpDate = customerToUpdate.PickupDate;
+                db.Entry(pickupToUpdate).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details");
             }
 
-            return View(customer);
+            return View();
         }
-        
+        public ActionResult Suspension()
+        {
+            string id = User.Identity.GetUserId();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Suspension([Bind(Include = "SuspendPickupStartDate, SuspendPickupEndDate")] Customer customer, ApplicationUser applicationUser, Pickup pickup)
+        {
+            if (ModelState.IsValid)
+            {
+                //Find Customer
+                var userId = User.Identity.GetUserId();
+                var userCurrent =
+                    (from u in db.Users
+                     where u.Id == userId
+                     select u).First();
+
+                var customerToUpdate =
+                     (from c in db.customers
+                      where c.ApplicationUserId == userCurrent.Id
+                      select c).First();
+
+                customerToUpdate.SuspendPickupStartDate = customer.SuspendPickupStartDate;
+                customerToUpdate.SuspendPickupEndDate = customer.SuspendPickupEndDate;
+                db.Entry(customerToUpdate).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Details");
+            }
+
+            return View();
+        }
+        public ActionResult Balance()
+        {
+            var userId = User.Identity.GetUserId();
+            var userCurrent =
+                (from u in db.Users
+                 where u.Id == userId
+                 select u).First();
+
+            var customerToView =
+                 (from c in db.customers
+                  where c.ApplicationUserId == userCurrent.Id
+                  select c).First();
+            if (userId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (customerToView == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customerToView);
+
+        }
+        public ActionResult Extra()
+        {
+            string id = User.Identity.GetUserId();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Extra([Bind(Include = "SpecialPickupDay")] Customer customer, ApplicationUser applicationUser, Pickup pickup)
+        {
+            if (ModelState.IsValid)
+            {
+                //Find Customer
+                var userId = User.Identity.GetUserId();
+                var userCurrent =
+                    (from u in db.Users
+                     where u.Id == userId
+                     select u).First();
+
+                var customerToUpdate =
+                     (from c in db.customers
+                      where c.ApplicationUserId == userCurrent.Id
+                      select c).First();
+
+                customerToUpdate.SpecialPickupDay = customer.SpecialPickupDay;
+                customerToUpdate.MonthlyBalance = (customerToUpdate.MonthlyBalance + pickup.PickupChargeAmount);
+                db.Entry(customerToUpdate).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                pickup.CustomerID = customerToUpdate.Id;
+                pickup.pickUpDate = customerToUpdate.SpecialPickupDay;
+                pickup.pickupStreetAddress = userCurrent.StreetAddress;
+                pickup.pickupCity = userCurrent.City;
+                pickup.pickupState = userCurrent.State;
+                pickup.pickupZipCode = userCurrent.ZipCode;
+                db.pickups.Add(pickup);
+                db.SaveChanges();
+                return RedirectToAction("Details");
+            }
+            
+
+         
+
+                return View(customer);
+        }
+
     }
 }

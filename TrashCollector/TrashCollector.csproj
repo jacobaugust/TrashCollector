@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201807272019143_NullableEmployeeId.Designer.cs">
       <DependentUpon>201807272019143_NullableEmployeeId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807301249382_MondayUpdate.cs" />
+    <Compile Include="Migrations\201807301249382_MondayUpdate.Designer.cs">
+      <DependentUpon>201807301249382_MondayUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -322,6 +326,9 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Extra.cshtml" />
+    <Content Include="Views\Customers\Balance.cshtml" />
+    <Content Include="Views\Customers\Suspension.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -363,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807272019143_NullableEmployeeId.resx">
       <DependentUpon>201807272019143_NullableEmployeeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807301249382_MondayUpdate.resx">
+      <DependentUpon>201807301249382_MondayUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
