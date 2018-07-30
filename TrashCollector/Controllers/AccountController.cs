@@ -171,7 +171,7 @@ namespace TrashCollector.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     if (model.UserRoles == "employee")
                     {
-                        return RedirectToAction("Index", "Employees");
+                        return RedirectToAction("Create", "Employees");
                     }
                     else if (model.UserRoles == "customer")
                     {

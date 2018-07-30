@@ -25,11 +25,12 @@ namespace TrashCollector.Controllers
                  where u.Id == userId
                  select u).First();
             DateTime dateTime = DateTime.Today;
+            
             var refinedpickups =
                 from p in db.pickups
-                where p.pickupZipCode == userCurrent.ZipCode || DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
+                where p.pickupZipCode == userCurrent.ZipCode && DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
                 select p;
-            return View(refinedpickups.ToList());
+            return View(refinedpickups);
         }
 
         // GET: Employees/Details/5
@@ -58,16 +59,32 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,employeeZipCode")] Employee employee)
+        public ActionResult Create([Bind(Include = "employeeZipCode")] Employee employee)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.employees.Add(employee);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    var userId = User.Identity.GetUserId();
+                    var userCurrent =
+                        (from u in db.Users
+                         where u.Id == userId
+                         select u).First();
 
-            return View(employee);
+
+                    employee.Name = userCurrent.FirstName;
+                    employee.ApplicationUserId = userCurrent.Id;
+                    db.employees.Add(employee);
+                    db.SaveChanges();
+                    
+                    return RedirectToAction("index");
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+            return RedirectToAction("Details");
         }
 
         // GET: Employees/Edit/5
@@ -77,12 +94,12 @@ namespace TrashCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.employees.Find(id);
-            if (employee == null)
+            Pickup pickup = db.pickups.Find(id);
+            if (pickup == null)
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View(pickup);
         }
 
         // POST: Employees/Edit/5
@@ -90,15 +107,32 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,employeeZipCode")] Employee employee)
+        public ActionResult Edit([Bind(Include = "pickupCompleted, EmployeeID")] ApplicationUser applicationUser, Pickup pickup, Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employee).State = EntityState.Modified;
+                var pickupToUpdate = db.pickups.Find(pickup.Id);
+                var userId = User.Identity.GetUserId();
+                var userCurrent =
+                    (from u in db.Users
+                     where u.Id == userId
+                     select u).First();
+
+                var employeeToUpdate =
+                     (from c in db.employees
+                      where c.ApplicationUserId == userCurrent.Id
+                      select c).First();
+                
+                pickupToUpdate.Employee = employeeToUpdate;
+                pickupToUpdate.EmployeeID = employeeToUpdate.Id;
+                pickupToUpdate.pickupCompleted = true;
+                db.Entry(pickupToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
+
+       
                 return RedirectToAction("Index");
             }
-            return View(employee);
+            return View(pickup);
         }
 
         // GET: Employees/Delete/5
