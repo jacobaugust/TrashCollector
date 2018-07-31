@@ -4,9 +4,11 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Welcome</h2>
+<h2>Getting Started</h2>
+<p class="lead"><i>Welcome @ViewBag.Name</i> </p>
 <br />
 <h4>Please select your prefered pickup day below.</h4>
+<p class="lead">The day of the week you select here will establish your regular weekly pickup day. This can be changed in the customer menu later if desired.</p>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

@@ -35,8 +35,8 @@ namespace TrashCollector.Controllers
                         (from u in db.Users
                          where u.Id == userId
                          select u).First();
-                    
 
+                    
                     customer.CustomerName = userCurrent.FirstName;
                     
                     customer.ApplicationUserId = userId;
@@ -50,6 +50,7 @@ namespace TrashCollector.Controllers
                     pickup.pickupZipCode = userCurrent.ZipCode;
                     db.pickups.Add(pickup);
                     db.SaveChanges();
+                    ViewBag.Name = userCurrent.FirstName;
                     return RedirectToAction("Details");
                 }
             }
@@ -67,6 +68,13 @@ namespace TrashCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var userId = User.Identity.GetUserId();
+            var userCurrent =
+                (from u in db.Users
+                 where u.Id == userId
+                 select u).First();
+            ViewBag.Name = userCurrent.FirstName;
+            
             return View();
         }
         public ActionResult Index()

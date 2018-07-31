@@ -1,16 +1,19 @@
 ﻿@model TrashCollector.Models.Pickup
-    <head>
-        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<head>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
-        @{
-            ViewBag.Title = "Map";
-        }
+    @{
+        ViewBag.Title = "Map";
+    }
 
-    </head>
-    <h2>Map</h2>
-    <div id="modal-map2" style="height: 76%;width: 76%; position: absolute; overflow: hidden;"></div>
+</head>
+<div>
+    @Html.ActionLink("Back to Pickups", "Index")
+</div>
+<h2>Map</h2>
+<div id="modal-map2" style="height: 76%;width: 76%; position: absolute; overflow: hidden;"></div>
 
-    <script>
+<script>
         var geocoder;
 
         function initMap (callback) {
@@ -23,7 +26,7 @@
                     latitude = results[0].geometry.location.lat();
                     longitude = results[0].geometry.location.lng();
                 }
-               
+
                 //callback(coordinates);
                 var uluru = new google.maps.LatLng(latitude, longitude);
                 var map = new google.maps.Map(document.getElementById('modal-map2'), {
@@ -44,12 +47,10 @@
 
         }
 
-      
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.APIKey&callback=initMap"
-            async defer type="text/javascript"></script>
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.APIKey&callback=initMap"
+        async defer type="text/javascript"></script>
 
 
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
+
