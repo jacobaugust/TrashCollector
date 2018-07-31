@@ -97,6 +97,12 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
+            var pickupToUpdate = db.pickups.Find(pickup.Id);
+            ViewBag.Address = pickupToUpdate.pickupStreetAddress;
+            ViewBag.City = pickupToUpdate.pickupCity;
+            ViewBag.State = pickupToUpdate.pickupState;
+            ViewBag.ZipCode = pickupToUpdate.pickupZipCode;
+            ViewBag.APIKey = Keys.GOOGLEAPIKEY;
             return View();
         }
         // GET: Employees/Edit/5

@@ -1,9 +1,93 @@
-﻿
-@{
-    ViewBag.Title = "Map";
-}
-<head>
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-</head>
-<h2>Map</h2>
+﻿@model TrashCollector.Models.Pickup
+    <head>
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+        @{
+            ViewBag.Title = "Map";
+        }
+
+    </head>
+    <h2>Map</h2>
+    <div id="modal-map2" style="height: 76%;width: 76%; position: absolute; overflow: hidden;"></div>
+
+    <script>
+        var geocoder;
+        @*function initMap() {
+        }
+        $(() => {
+            initMap = function (callback) {
+                var coordinates;
+            geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: @ViewBag.Address @ViewBag.City @ViewBag.State @ViewBag.ZipCode}, function (results, status) {
+                coords_obj = results[0].geometry.location;
+                coordinates = [coords_obj.nb, coords_obj.ob];
+                callback(coordinates);
+                var uluru = new google.maps.LatLng(coordinates[0], coordinates[1]);
+                var map = new google.maps.Map(document.getElementById('modal-map2'), {
+                    zoom: 15,
+                    center: uluru,
+                    mapTypeId: google.maps.MapTypeId.HYBRID,
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_BOTTOM
+                    },
+                    streetViewControl: true,
+                    streetViewControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_BOTTOM
+                    },
+                });
+            })
+            }
+        })*@
+        function initMap (callback) {
+            var coordinates;
+            geocoder = new google.maps.Geocoder();
+            var latitude = 52.0000000;
+            var longitute = 9.7000000;
+            geocoder.geocode({ 'address': "@ViewBag.Address @ViewBag.City @ViewBag.State @ViewBag.ZipCode" }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
+                }
+               
+                //callback(coordinates);
+                var uluru = new google.maps.LatLng(latitude, longitude);
+                var map = new google.maps.Map(document.getElementById('modal-map2'), {
+                    zoom: 15,
+                    center: uluru,
+                    mapTypeId: google.maps.MapTypeId.HYBRID,
+
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_BOTTOM
+                    },
+                    streetViewControl: true,
+                    streetViewControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_BOTTOM
+                    },
+                });
+                var marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(latitude, longitude) });
+            })
+
+        }
+
+        //var address = { address: pickup.address }
+        //callback = function (results, status) { return results }
+        //results = geocoder.geocode(address, callback)
+        //var uluru = new google.maps.LatLng(coordinates[0], coordinates[1]);
+        //var map = new google.maps.Map(document.getElementById('modal-map2'), {
+        //    zoom: 15,
+        //    center: uluru,
+        //    mapTypeId: google.maps.MapTypeId.HYBRID,
+        //    zoomControlOptions: {
+        //        position: google.maps.ControlPosition.LEFT_BOTTOM
+        //    },
+        //    streetViewControl: true,
+        //    streetViewControlOptions: {
+        //        position: google.maps.ControlPosition.LEFT_BOTTOM
+        //    },
+        //});
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.APIKey&callback=initMap"
+            async defer type="text/javascript"></script>
+
+
 
