@@ -38,7 +38,7 @@ namespace TrashCollector.Controllers
                     
 
                     customer.CustomerName = userCurrent.FirstName;
-                    customer.MonthlyBalance = (0 + pickup.PickupChargeAmount);
+                    
                     customer.ApplicationUserId = userId;
                     db.customers.Add(customer);
                     db.SaveChanges();
@@ -204,7 +204,7 @@ namespace TrashCollector.Controllers
                       select c).First();
 
                 customerToUpdate.SpecialPickupDay = customer.SpecialPickupDay;
-                customerToUpdate.MonthlyBalance = (customerToUpdate.MonthlyBalance + pickup.PickupChargeAmount);
+                
                 db.Entry(customerToUpdate).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 

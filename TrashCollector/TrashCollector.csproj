@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201807301920572_FKeyAddedToEmployee.Designer.cs">
       <DependentUpon>201807301920572_FKeyAddedToEmployee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807312008403_DisplayNamesEntered.cs" />
+    <Compile Include="Migrations\201807312008403_DisplayNamesEntered.Designer.cs">
+      <DependentUpon>201807312008403_DisplayNamesEntered.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -258,6 +262,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-cerulean.css" />
+    <Content Include="Content\bootstrap-superhero.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -382,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807301920572_FKeyAddedToEmployee.resx">
       <DependentUpon>201807301920572_FKeyAddedToEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807312008403_DisplayNamesEntered.resx">
+      <DependentUpon>201807312008403_DisplayNamesEntered.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

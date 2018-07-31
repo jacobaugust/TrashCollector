@@ -22,12 +22,17 @@ namespace TrashCollector.Models
         public static List<string> pickupDays = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display (Name = "PickupDate")]
+        [Display (Name = "Scheduled Pickup Date")]
         public DateTime? pickUpDate { get; set; }
+        [Display(Name = "Pickup Completion Status")]
         public bool pickupCompleted { get; set; }
+        [Display(Name = "Street Address")]
         public string pickupStreetAddress { get; set; }
+        [Display(Name = "City")]
         public string pickupCity { get; set; }
+        [Display(Name = "State")]
         public string pickupState { get; set; }
+        [Display(Name = "Zip Code")]
         public string pickupZipCode { get; set; }
        
 

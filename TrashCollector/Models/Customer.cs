@@ -12,14 +12,14 @@ namespace TrashCollector.Models
         [Key]
         public int Id { get; set; }
         [Display(Name = "Customer Name")]
-
         public string CustomerName { get; set; }
-        [Display(Name = "Scheduled Weekly Pickup Day")]
         [DisplayFormat(DataFormatString = "{0:dddd}")]
         [DataType(DataType.Date)]
+        [Display(Name = "Scheduled Pickup Day")]
         public DateTime? PickupDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:dddd}")]
         [DataType(DataType.Date)]
+        [Display(Name = "Scheduled Special Pickup Day")]
         public DateTime? SpecialPickupDay { get; set; }
         [DisplayFormat(DataFormatString = "{0:dddd}")]
         [DataType(DataType.Date)]
@@ -28,6 +28,7 @@ namespace TrashCollector.Models
         [DataType(DataType.Date)]
         public DateTime? SuspendPickupEndDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:C0}")]
+        [Display(Name = "Balance Due")]
         public float? MonthlyBalance { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

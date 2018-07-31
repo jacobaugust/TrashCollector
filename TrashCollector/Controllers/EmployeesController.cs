@@ -125,7 +125,7 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "pickupCompleted, EmployeeID")] ApplicationUser applicationUser, Pickup pickup, Employee employee)
+        public ActionResult Edit([Bind(Include = "pickupCompleted, EmployeeID")] ApplicationUser applicationUser, Pickup pickup, Employee employee, Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -137,13 +137,27 @@ namespace TrashCollector.Controllers
                      select u).First();
 
                 var employeeToUpdate =
-                     (from c in db.employees
-                      where c.ApplicationUserId == userCurrent.Id
-                      select c).First();
-                
+                     (from e in db.employees
+                      where e.ApplicationUserId == userCurrent.Id
+                      select e).First();
+
+                var customerToUpdate =
+                      (from b in db.customers
+                      where b.ApplicationUser.StreetAddress == pickupToUpdate.pickupStreetAddress
+                      select b).First();
+
                 pickupToUpdate.Employee = employeeToUpdate;
                 pickupToUpdate.EmployeeID = employeeToUpdate.Id;
                 pickupToUpdate.pickupCompleted = true;
+                if (customerToUpdate.MonthlyBalance == null)
+                {
+                    customerToUpdate.MonthlyBalance = (0 + pickup.PickupChargeAmount);
+                }
+                else
+                {
+                    customerToUpdate.MonthlyBalance = (customerToUpdate.MonthlyBalance + pickupToUpdate.PickupChargeAmount);
+                }
+                db.Entry(customerToUpdate).State = EntityState.Modified;
                 db.Entry(pickupToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
 
