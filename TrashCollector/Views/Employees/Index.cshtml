@@ -60,7 +60,8 @@
                 @Html.DisplayFor(modelItem => item.pickupCompleted)
             </td>
             <td>
-                @Html.ActionLink("Accept Pickup", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Confirm Pickup", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Map Pickup", "Map", new { id = item.Id }) |
             </td>
         </tr>
     }

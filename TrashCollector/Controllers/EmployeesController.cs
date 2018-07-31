@@ -86,7 +86,19 @@ namespace TrashCollector.Controllers
             }
             return RedirectToAction("Details");
         }
-
+        public ActionResult Map(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pickup pickup = db.pickups.Find(id);
+            if (pickup == null)
+            {
+                return HttpNotFound();
+            }
+            return View();
+        }
         // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
