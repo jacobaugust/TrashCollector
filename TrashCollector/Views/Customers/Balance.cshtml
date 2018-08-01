@@ -16,6 +16,19 @@
     </dd>
 
 </dl>
+<form action="/Payment/Charge" method="POST">
+    <article>
+        <label>Amount: @Html.DisplayFor(model => model.MonthlyBalance)</label>
+    </article>
+    <script src="//checkout.stripe.com/v2/checkout.js"
+            class="stripe-button"
+            data-key="@ViewBag.StripePublishKey"
+            data-locale="auto"
+            data-description="Sample Charge"
+            data-amount="500">
+    </script>
+</form>
+<br />
 <div>
     @Html.ActionLink("Back to Menu", "Details")
 </div>

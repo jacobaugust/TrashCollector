@@ -6,6 +6,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
+using PayPal.Api;
+using System.Configuration;
+using Stripe;
 
 namespace TrashCollector.Controllers
 {
@@ -180,8 +183,32 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
+            var stripePublishKey = ConfigurationManager.AppSettings["pk_test_aSTeSwcU6APFOaqoeT4tJJ5Q"];
+            ViewBag.StripePublishKey = stripePublishKey;
             return View(customerToView);
+        }
+        public ActionResult Charge(string stripeEmail, string stripeToken)
+        {
+            var customers = new StripeCustomerService();
+            var charges = new StripeChargeService();
 
+            var customer = customers.Create(new StripeCustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = charges.Create(new StripeChargeCreateOptions
+            {
+                Amount = 500,//charge in cents
+                Description = "Sample Charge",
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+
+            // further application specific code goes here
+
+            return View();
         }
         public ActionResult Extra()
         {
@@ -232,6 +259,6 @@ namespace TrashCollector.Controllers
 
                 return View(customer);
         }
-
+       
     }
 }
