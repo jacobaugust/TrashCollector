@@ -105,6 +105,52 @@ namespace TrashCollector.Controllers
             ViewBag.APIKey = Keys.GOOGLEAPIKEY;
             return View();
         }
+        public ActionResult MapAll()
+       {
+            var userId = User.Identity.GetUserId();
+            var userCurrent =
+                (from u in db.Users
+                 where u.Id == userId
+                 select u).First();
+            DateTime dateTime = DateTime.Today;
+            var firstPickup =
+                      (from p in db.pickups
+                      where p.pickupZipCode == userCurrent.ZipCode && DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
+                      select p).First();
+            ViewBag.Address = firstPickup.pickupStreetAddress;
+            ViewBag.City = firstPickup.pickupCity;
+            ViewBag.State = firstPickup.pickupState;
+            ViewBag.ZipCode = firstPickup.pickupZipCode;
+            ViewBag.APIKey = Keys.GOOGLEAPIKEY;
+            var refinedpickupsSA =
+                from p in db.pickups
+                where p.pickupZipCode == userCurrent.ZipCode && DbFunctions.TruncateTime(p.pickUpDate) == DbFunctions.TruncateTime(dateTime)
+                select p.pickupStreetAddress;
+            var refinedpickupsC =
+               from cp in db.pickups
+               where cp.pickupZipCode == userCurrent.ZipCode && DbFunctions.TruncateTime(cp.pickUpDate) == DbFunctions.TruncateTime(dateTime)
+               select cp.pickupCity;
+            List<string> streetAddresses = new List<string>();
+            foreach (string value in refinedpickupsSA)
+            {
+                streetAddresses.Add(value);
+            }
+            List<string> cities = new List<string>();
+            foreach (string value in refinedpickupsC)
+            {
+                cities.Add(value);
+            }
+            List<string> combined = new List<string>();
+            {
+                for(int i = 0; i < cities.Count; i++)
+                {
+                    combined.Add(streetAddresses[i]);
+                    combined.Add(cities[i]);
+                }
+            } 
+            ViewBag.Addresses = combined;
+            return View();
+        }
         // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
