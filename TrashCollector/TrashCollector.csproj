@@ -351,6 +351,7 @@
     <Content Include="Views\Customers\Suspension.cshtml" />
     <Content Include="Views\Employees\Map.cshtml" />
     <Content Include="Views\Employees\MapAll.cshtml" />
+    <Content Include="Views\Pickups\Calendar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
